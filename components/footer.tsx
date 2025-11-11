@@ -35,7 +35,7 @@ export function Footer() {
           
           <div className="text-center mt-8 pt-6 border-t border-gray-800">
             <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
-              <a href="/privacy-policy" className="text-gray-300 hover:text-white text-sm transition-colors">
+              <a href="/privacy" className="text-gray-300 hover:text-white text-sm transition-colors">
                 Privacy Policy
               </a>
               <span className="text-gray-600">|</span>

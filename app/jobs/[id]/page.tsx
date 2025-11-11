@@ -10,13 +10,12 @@ import { Badge } from "@/components/ui/badge"
 import { MapPinned, Clock, UserCheck, BadgeCheck, Share2, ExternalLink, Phone } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import Head from "next/head"
 import { useEffect } from "react"
 
 export default function JobDetailPage() {
   const params = useParams()
   const { jobs } = useJobs()
-  const { getCompanyById } = useCompanies()
+  const { companies, getCompanyById } = useCompanies()
   
   const job = jobs.find(j => j.id === params.id)
   const company = job ? getCompanyById(job.companyId) : null
@@ -24,10 +23,10 @@ export default function JobDetailPage() {
   // Check if data is still loading (jobs array is empty on first render)
   const isLoading = jobs.length === 0
 
-  // Update favicon and meta tags dynamically
+  // Update favicon and meta tags dynamically for WhatsApp sharing
   useEffect(() => {
     if (company && job) {
-      // Update favicon
+      // Update favicon to company logo
       const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement
       if (favicon) {
         favicon.href = company.logo || "/favicon.ico"
@@ -38,7 +37,10 @@ export default function JobDetailPage() {
         document.head.appendChild(newFavicon)
       }
 
-      // Update Open Graph meta tags
+      // Update page title
+      document.title = `${job.title} at ${company.name} - RwandaJobHub`
+
+      // Update Open Graph meta tags for WhatsApp
       const updateMetaTag = (property: string, content: string) => {
         let metaTag = document.querySelector(`meta[property='${property}']`) as HTMLMetaElement
         if (metaTag) {
@@ -52,10 +54,13 @@ export default function JobDetailPage() {
       }
 
       updateMetaTag('og:title', `${job.title} at ${company.name}`)
-      updateMetaTag('og:description', `${company.name} is hiring, Apply now on: ${window.location.href}`)
-      updateMetaTag('og:image', company.logo || "/favicon.ico")
+      updateMetaTag('og:description', `${company.name} is hiring! Location: ${job.location} | Type: ${job.jobType} | Level: ${job.experienceLevel}`)
+      updateMetaTag('og:image', company.logo)
+      updateMetaTag('og:image:width', '1200')
+      updateMetaTag('og:image:height', '630')
       updateMetaTag('og:url', window.location.href)
       updateMetaTag('og:type', 'website')
+      updateMetaTag('og:site_name', 'RwandaJobHub')
 
       // Update Twitter Card meta tags
       const updateTwitterTag = (name: string, content: string) => {
@@ -72,8 +77,8 @@ export default function JobDetailPage() {
 
       updateTwitterTag('twitter:card', 'summary_large_image')
       updateTwitterTag('twitter:title', `${job.title} at ${company.name}`)
-      updateTwitterTag('twitter:description', `${company.name} is hiring, Apply now on: ${window.location.href}`)
-      updateTwitterTag('twitter:image', company.logo || "/favicon.ico")
+      updateTwitterTag('twitter:description', `${company.name} is hiring! Location: ${job.location} | Type: ${job.jobType}`)
+      updateTwitterTag('twitter:image', company.logo)
     }
   }, [company, job])
 
@@ -106,7 +111,7 @@ export default function JobDetailPage() {
   }
 
   const shareToWhatsApp = () => {
-    const message = `🔔 *${job.title}* at *${company.name}*\n\n${company.name} is hiring!\n\n📍 Location: ${job.location}\n💼 Type: ${job.jobType}\n📊 Level: ${job.experienceLevel}\n\n🔗 Apply now: ${window.location.href}\n\n💬 Join our WhatsApp group for more opportunities:\nhttps://chat.whatsapp.com/Ky7m3B0M5Gd3saO58Rb1tI`
+    const message = `*${job.title}* at *${company.name}*\n\n${company.name} is hiring!\n\nLocation: ${job.location}\nType: ${job.jobType}\nLevel: ${job.experienceLevel}\n\nApply now: ${window.location.href}\n\nJoin our WhatsApp group for more opportunities:\nhttps://chat.whatsapp.com/Ky7m3B0M5Gd3saO58Rb1tI`
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
@@ -133,7 +138,8 @@ export default function JobDetailPage() {
         <div className="max-w-4xl mx-auto">
           {/* Header Section */}
           <div className="bg-card border rounded-lg p-8 mb-6">
-            <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex gap-4">
+              {/* Company Logo - Always on the left */}
               <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-muted">
                 <Image
                   src={company.logo || "/placeholder.svg"}
@@ -143,23 +149,24 @@ export default function JobDetailPage() {
                 />
               </div>
               
-              <div className="flex-1">
+              {/* Job Info - Flexible layout */}
+              <div className="flex-1 min-w-0">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                  <div>
-                    <h1 className="text-3xl font-bold mb-2">{job.title}</h1>
-                    <div className="flex items-center gap-2 text-lg text-muted-foreground">
+                  <div className="min-w-0">
+                    <h1 className="text-2xl md:text-3xl font-bold mb-2 wrap-break-word">{job.title}</h1>
+                    <div className="flex items-center gap-2 text-base md:text-lg text-muted-foreground">
                       <span className="font-medium text-foreground">{company.name}</span>
                     </div>
                   </div>
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0">
                     <Button onClick={shareToWhatsApp} variant="outline" size="sm" className="gap-2">
                       <Phone className="h-4 w-4" />
-                      WhatsApp
+                      <span className="hidden sm:inline">WhatsApp</span>
                     </Button>
                     <Button onClick={shareJob} variant="outline" size="sm" className="gap-2">
                       <Share2 className="h-4 w-4" />
-                      Share
+                      <span className="hidden sm:inline">Share</span>
                     </Button>
                   </div>
                 </div>
