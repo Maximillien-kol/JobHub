@@ -20,7 +20,7 @@ export function Footer() {
               <Mail className="h-5 w-5 text-gray-400" />
               <div>
                 <p className="font-medium">Email</p>
-                <p className="text-gray-300 text-sm">contact@rwandajobhub.com</p>
+                <p className="text-gray-300 text-sm">ishimwefrancis2018@gmail.com</p>
               </div>
             </div>
 
@@ -28,7 +28,7 @@ export function Footer() {
               <Phone className="h-5 w-5 text-gray-400" />
               <div>
                 <p className="font-medium">Phone</p>
-                <p className="text-gray-300 text-sm">+250 788 123 456</p>
+                <p className="text-gray-300 text-sm">+250 783 074 056</p>
               </div>
             </div>
           </div>

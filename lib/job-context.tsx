@@ -12,14 +12,12 @@ interface JobContextType {
   filters: JobFilters
   setFilters: (filters: Partial<JobFilters>) => void
   filteredJobs: Job[]
-  loading: boolean
 }
 
 const JobContext = createContext<JobContextType | undefined>(undefined)
 
 export function JobProvider({ children }: { children: ReactNode }) {
   const [jobs, setJobs] = useState<Job[]>([])
-  const [loading, setLoading] = useState(true)
   const [filters, setFiltersState] = useState<JobFilters>({
     search: "",
     location: "",
@@ -77,8 +75,6 @@ export function JobProvider({ children }: { children: ReactNode }) {
       setJobs(formattedJobs)
     } catch (error) {
       console.error("Error fetching jobs:", error)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -217,7 +213,6 @@ export function JobProvider({ children }: { children: ReactNode }) {
         filters,
         setFilters,
         filteredJobs,
-        loading,
       }}
     >
       {children}

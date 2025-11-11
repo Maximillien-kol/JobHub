@@ -39,7 +39,6 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold mb-1">Office Location</h3>
                     <p className="text-muted-foreground">
-                      KG 11 Ave, Kigali<br />
                       Kigali, Rwanda
                     </p>
                   </div>
@@ -51,8 +50,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Email Address</h3>
-                    <p className="text-muted-foreground">contact@rwandajobhub.com</p>
-                    <p className="text-muted-foreground">support@rwandajobhub.com</p>
+                    <p className="text-muted-foreground">ishimwefrancis2018@gmail.com</p>
                   </div>
                 </div>
 
@@ -62,8 +60,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Phone Number</h3>
-                    <p className="text-muted-foreground">+250 788 123 456</p>
-                    <p className="text-muted-foreground">+250 722 987 654</p>
+                    <p className="text-muted-foreground">+250 783 074 056</p>
                   </div>
                 </div>
 
@@ -106,11 +103,11 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" placeholder="John" required />
+                    <Input id="firstName" placeholder="Enter your first name" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name *</Label>
-                    <Input id="lastName" placeholder="Doe" required />
+                    <Input id="lastName" placeholder="Enter your last name" required />
                   </div>
                 </div>
 
@@ -121,7 +118,7 @@ export default function ContactPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="+250 788 123 456" />
+                  <Input id="phone" type="tel" placeholder="Enter your number" />
                 </div>
 
                 <div className="space-y-2">

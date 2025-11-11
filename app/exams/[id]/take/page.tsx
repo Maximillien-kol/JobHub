@@ -41,7 +41,7 @@ export default function TakeExamPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [timeLeft, setTimeLeft] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [showResults, setShowResults] = useState(false)
   const [score, setScore] = useState(0)
   const [totalPoints, setTotalPoints] = useState(0)
@@ -104,7 +104,7 @@ export default function TakeExamPage() {
     } catch (error) {
       console.error("Error fetching exam:", error)
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -171,33 +171,19 @@ export default function TakeExamPage() {
     return `${minutes}:${secs.toString().padStart(2, "0")}`
   }
 
-  if (loading) {
+  // Show loading skeleton while fetching data or if exam not found
+  if (isLoading || !exam || questions.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-16 text-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <p className="text-muted-foreground">Loading exam...</p>
+        <main className="container mx-auto px-4 py-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-card border rounded-lg p-8 animate-pulse">
+              <div className="h-8 bg-muted rounded w-3/4 mb-4"></div>
+              <div className="h-4 bg-muted rounded w-1/2 mb-2"></div>
+              <div className="h-4 bg-muted rounded w-1/3"></div>
+            </div>
           </div>
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
-  if (!exam || questions.length === 0) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Exam Not Found</h1>
-          <p className="text-muted-foreground mb-6">
-            This exam doesn't exist or has no questions yet.
-          </p>
-          <Button asChild>
-            <Link href="/exams">Browse All Exams</Link>
-          </Button>
         </main>
         <Footer />
       </div>

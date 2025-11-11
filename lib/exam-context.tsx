@@ -13,14 +13,12 @@ interface ExamContextType {
   deleteExam: (id: string) => Promise<void>
   updateExam: (id: string, exam: Partial<Exam>) => Promise<void>
   getExamQuestions: (examId: string) => Promise<ExamQuestion[]>
-  loading: boolean
 }
 
 const ExamContext = createContext<ExamContextType | undefined>(undefined)
 
 export function ExamProvider({ children }: { children: ReactNode }) {
   const [exams, setExams] = useState<Exam[]>([])
-  const [loading, setLoading] = useState(true)
 
   // Fetch exams from Supabase
   useEffect(() => {
@@ -52,8 +50,6 @@ export function ExamProvider({ children }: { children: ReactNode }) {
       setExams(formattedExams)
     } catch (error) {
       console.error("Error fetching exams:", error)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -184,7 +180,7 @@ export function ExamProvider({ children }: { children: ReactNode }) {
 
   return (
     <ExamContext.Provider
-      value={{ exams, addExam, deleteExam, updateExam, getExamQuestions, loading }}
+      value={{ exams, addExam, deleteExam, updateExam, getExamQuestions }}
     >
       {children}
     </ExamContext.Provider>

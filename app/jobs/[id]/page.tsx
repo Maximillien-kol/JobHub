@@ -15,24 +15,26 @@ import { useEffect } from "react"
 
 export default function JobDetailPage() {
   const params = useParams()
-  const { jobs, loading } = useJobs()
+  const { jobs } = useJobs()
   const { getCompanyById } = useCompanies()
   
   const job = jobs.find(j => j.id === params.id)
   const company = job ? getCompanyById(job.companyId) : null
 
+  // Check if data is still loading (jobs array is empty on first render)
+  const isLoading = jobs.length === 0
+
   // Update favicon and meta tags dynamically
-  // Must be called before any conditional returns (Rules of Hooks)
   useEffect(() => {
     if (company && job) {
       // Update favicon
       const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement
       if (favicon) {
-        favicon.href = company.logo || "/placeholder.svg"
+        favicon.href = company.logo || "/favicon.ico"
       } else {
         const newFavicon = document.createElement('link')
         newFavicon.rel = 'icon'
-        newFavicon.href = company.logo || "/placeholder.svg"
+        newFavicon.href = company.logo || "/favicon.ico"
         document.head.appendChild(newFavicon)
       }
 
@@ -51,7 +53,7 @@ export default function JobDetailPage() {
 
       updateMetaTag('og:title', `${job.title} at ${company.name}`)
       updateMetaTag('og:description', `${company.name} is hiring, Apply now on: ${window.location.href}`)
-      updateMetaTag('og:image', company.logo || "/placeholder.svg")
+      updateMetaTag('og:image', company.logo || "/favicon.ico")
       updateMetaTag('og:url', window.location.href)
       updateMetaTag('og:type', 'website')
 
@@ -71,39 +73,24 @@ export default function JobDetailPage() {
       updateTwitterTag('twitter:card', 'summary_large_image')
       updateTwitterTag('twitter:title', `${job.title} at ${company.name}`)
       updateTwitterTag('twitter:description', `${company.name} is hiring, Apply now on: ${window.location.href}`)
-      updateTwitterTag('twitter:image', company.logo || "/placeholder.svg")
+      updateTwitterTag('twitter:image', company.logo || "/favicon.ico")
     }
   }, [company, job])
 
-  // Show loading state
-  if (loading) {
+  // Show loading skeleton if data hasn't loaded or job not found
+  if (isLoading || !job || !company) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-16 text-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <p className="text-muted-foreground">Loading job details...</p>
+        <main className="container mx-auto px-4 py-16">
+          {/* Show skeleton or minimal content while loading */}
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-card border rounded-lg p-8 animate-pulse">
+              <div className="h-8 bg-muted rounded w-3/4 mb-4"></div>
+              <div className="h-4 bg-muted rounded w-1/2 mb-2"></div>
+              <div className="h-4 bg-muted rounded w-1/3"></div>
+            </div>
           </div>
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
-  // Early return after all hooks
-  if (!job || !company) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Job Not Found</h1>
-          <p className="text-muted-foreground mb-6">
-            The job you're looking for doesn't exist or has been removed.
-          </p>
-          <Button asChild>
-            <Link href="/">Browse All Jobs</Link>
-          </Button>
         </main>
         <Footer />
       </div>

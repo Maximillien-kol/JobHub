@@ -10,14 +10,12 @@ interface CompanyContextType {
   updateCompany: (id: string, company: Partial<Company>) => Promise<void>
   deleteCompany: (id: string) => Promise<void>
   getCompanyById: (id: string) => Company | undefined
-  loading: boolean
 }
 
 const CompanyContext = createContext<CompanyContextType | undefined>(undefined)
 
 export function CompanyProvider({ children }: { children: ReactNode }) {
   const [companies, setCompanies] = useState<Company[]>([])
-  const [loading, setLoading] = useState(true)
 
   // Fetch companies from Supabase
   useEffect(() => {
@@ -58,8 +56,6 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
       setCompanies(formattedCompanies)
     } catch (error) {
       console.error("Error fetching companies:", error)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -140,7 +136,6 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
         updateCompany,
         deleteCompany,
         getCompanyById,
-        loading,
       }}
     >
       {children}
