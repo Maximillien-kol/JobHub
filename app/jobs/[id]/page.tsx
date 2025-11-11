@@ -53,8 +53,10 @@ export default function JobDetailPage() {
         }
       }
 
-      updateMetaTag('og:title', `${job.title} at ${company.name}`)
-      updateMetaTag('og:description', `${company.name} is hiring! Location: ${job.location} | Type: ${job.jobType} | Level: ${job.experienceLevel}`)
+      const description = `${company.name} is hiring ${job.title}!\n\nLocation: ${job.location}\nType: ${job.jobType}\nLevel: ${job.experienceLevel}\n\nApply now: ${window.location.href}\n\nJoin our WhatsApp group for more opportunities:\nhttps://chat.whatsapp.com/Ky7m3B0M5Gd3saO58Rb1tI`
+
+      updateMetaTag('og:title', `${company.name} is hiring ${job.title}!`)
+      updateMetaTag('og:description', description)
       updateMetaTag('og:image', company.logo)
       updateMetaTag('og:image:width', '1200')
       updateMetaTag('og:image:height', '630')
@@ -76,8 +78,8 @@ export default function JobDetailPage() {
       }
 
       updateTwitterTag('twitter:card', 'summary_large_image')
-      updateTwitterTag('twitter:title', `${job.title} at ${company.name}`)
-      updateTwitterTag('twitter:description', `${company.name} is hiring! Location: ${job.location} | Type: ${job.jobType}`)
+      updateTwitterTag('twitter:title', `${company.name} is hiring ${job.title}!`)
+      updateTwitterTag('twitter:description', description)
       updateTwitterTag('twitter:image', company.logo)
     }
   }, [company, job])
@@ -111,7 +113,7 @@ export default function JobDetailPage() {
   }
 
   const shareToWhatsApp = () => {
-    const message = `*${job.title}* at *${company.name}*\n\n${company.name} is hiring!\n\nLocation: ${job.location}\nType: ${job.jobType}\nLevel: ${job.experienceLevel}\n\nApply now: ${window.location.href}\n\nJoin our WhatsApp group for more opportunities:\nhttps://chat.whatsapp.com/Ky7m3B0M5Gd3saO58Rb1tI`
+    const message = `${company.name} is hiring ${job.title}!\n\nLocation: ${job.location}\nType: ${job.jobType}\nLevel: ${job.experienceLevel}\n\nApply now: ${window.location.href}\n\nJoin our WhatsApp group for more opportunities:\nhttps://chat.whatsapp.com/Ky7m3B0M5Gd3saO58Rb1tI`
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
