@@ -106,7 +106,7 @@ export default function JobDetailPage() {
   }
 
   const shareToWhatsApp = () => {
-    const message = `${company.name} is hiring, Apply now on: ${window.location.href}`
+    const message = `🔔 *${job.title}* at *${company.name}*\n\n${company.name} is hiring!\n\n📍 Location: ${job.location}\n💼 Type: ${job.jobType}\n📊 Level: ${job.experienceLevel}\n\n🔗 Apply now: ${window.location.href}`
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
@@ -208,11 +208,10 @@ export default function JobDetailPage() {
               {/* Job Description */}
               <div className="bg-card border rounded-lg p-6">
                 <h2 className="text-xl font-semibold mb-4">Job Description</h2>
-                <div className="prose prose-sm max-w-none">
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {job.description}
-                  </p>
-                </div>
+                <div 
+                  className="prose prose-sm max-w-none text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: job.description }}
+                />
               </div>
               
               {/* How to Apply */}

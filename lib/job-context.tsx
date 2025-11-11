@@ -53,7 +53,15 @@ export function JobProvider({ children }: { children: ReactNode }) {
         .select("*")
         .order("posted_date", { ascending: false })
 
-      if (error) throw error
+      if (error) {
+        console.error("Supabase error fetching jobs:", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        })
+        throw error
+      }
 
       const formattedJobs: Job[] = (data || []).map((job) => ({
         id: job.id,
@@ -80,6 +88,8 @@ export function JobProvider({ children }: { children: ReactNode }) {
 
   const addJob = async (job: Omit<Job, "id" | "postedDate" | "applicants">) => {
     try {
+      console.log("Attempting to add job:", job)
+      
       const { data, error } = await supabase
         .from("jobs")
         .insert([
@@ -100,7 +110,17 @@ export function JobProvider({ children }: { children: ReactNode }) {
         .select()
         .single()
 
-      if (error) throw error
+      if (error) {
+        console.error("Supabase error adding job:", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        })
+        throw error
+      }
+
+      console.log("Job added successfully:", data)
 
       const newJob: Job = {
         id: data.id,
