@@ -68,7 +68,7 @@ export function Header() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64">
+            <SheetContent side="right" className="w-72 pl-8 pr-4">
               <div className="flex flex-col gap-4 mt-8">
                 {navigationLinks.map((link) => (
                   <Link
@@ -85,19 +85,24 @@ export function Header() {
                     handleJoinWhatsApp()
                     setMobileMenuOpen(false)
                   }}
-                  className="gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white"
+                  className="gap-2 bg-[#25D366] hover:bg-[#1DA851] text-white w-full"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  Join WhatsApp
+                  Join WhatsApp Group
                 </Button>
                 {!isAuthenticated && (
-                  <Link
-                    href="/dashboard"
-                    className="text-lg font-medium hover:text-primary transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
+                  <Button 
+                    asChild
+                    className="w-full text-black mt-2" 
+                    style={{ backgroundColor: '#76c893' }}
                   >
-                    Login
-                  </Link>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Login
+                    </Link>
+                  </Button>
                 )}
               </div>
             </SheetContent>

@@ -14,7 +14,7 @@ import { useEffect } from "react"
 
 export default function JobDetailPage() {
   const params = useParams()
-  const { jobs } = useJobs()
+  const { jobs, trackApplyClick } = useJobs()
   const { companies, getCompanyById } = useCompanies()
   
   const job = jobs.find(j => j.id === params.id)
@@ -22,6 +22,12 @@ export default function JobDetailPage() {
 
   // Check if data is still loading (jobs array is empty on first render)
   const isLoading = jobs.length === 0
+
+  const handleApplyClick = () => {
+    if (job) {
+      trackApplyClick(job.id)
+    }
+  }
 
   // Update favicon and meta tags dynamically for WhatsApp sharing
   useEffect(() => {
@@ -201,7 +207,12 @@ export default function JobDetailPage() {
                   {job.featured && <Badge className="bg-yellow-100 text-yellow-800">Featured</Badge>}
                 </div>
                 
-                <Button size="lg" className="w-full md:w-auto" asChild>
+                <Button 
+                  size="lg" 
+                  className="w-full md:w-auto" 
+                  asChild
+                  onClick={handleApplyClick}
+                >
                   <Link href={job.applicationLink} target="_blank" rel="noopener noreferrer">
                     Apply Now
                     <ExternalLink className="h-4 w-4 ml-2" />

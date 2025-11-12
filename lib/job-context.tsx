@@ -9,6 +9,7 @@ interface JobContextType {
   addJob: (job: Omit<Job, "id" | "postedDate" | "applicants">) => Promise<void>
   updateJob: (id: string, job: Partial<Job>) => Promise<void>
   deleteJob: (id: string) => Promise<void>
+  trackApplyClick: (jobId: string) => Promise<void>
   filters: JobFilters
   setFilters: (filters: Partial<JobFilters>) => void
   filteredJobs: Job[]
@@ -188,6 +189,33 @@ export function JobProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const trackApplyClick = async (jobId: string) => {
+    try {
+      // Increment the applicants count
+      const job = jobs.find(j => j.id === jobId)
+      if (!job) return
+
+      const newApplicantCount = (job.applicants || 0) + 1
+
+      const { error } = await supabase
+        .from("jobs")
+        .update({ applicants: newApplicantCount })
+        .eq("id", jobId)
+
+      if (error) {
+        console.error("Error tracking apply click:", error)
+        throw error
+      }
+
+      // Update local state
+      setJobs(jobs.map((j) => 
+        j.id === jobId ? { ...j, applicants: newApplicantCount } : j
+      ))
+    } catch (error) {
+      console.error("Error tracking apply click:", error)
+    }
+  }
+
   const setFilters = (newFilters: Partial<JobFilters>) => {
     setFiltersState({ ...filters, ...newFilters })
   }
@@ -233,6 +261,7 @@ export function JobProvider({ children }: { children: ReactNode }) {
         addJob,
         updateJob,
         deleteJob,
+        trackApplyClick,
         filters,
         setFilters,
         filteredJobs,
