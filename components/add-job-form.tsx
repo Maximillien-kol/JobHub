@@ -39,7 +39,7 @@ export function AddJobForm({ onSuccess }: AddJobFormProps) {
     location: "",
     locationType: "Remote" as "Remote" | "On-site" | "Hybrid",
     jobType: "Full-time" as "Full-time" | "Part-time" | "Contract" | "Freelance",
-    opportunityType: "Job" as "Job" | "Internship" | "Scholarship",
+    opportunityType: "Job" as "Job" | "Internship" | "Scholarship" | "Education",
     experienceLevel: "Intermediate" as "Entry level" | "Intermediate" | "Expert",
     deadline: "",
     applicationLink: "",
@@ -251,6 +251,7 @@ export function AddJobForm({ onSuccess }: AddJobFormProps) {
                 <SelectItem value="Job">Job</SelectItem>
                 <SelectItem value="Internship">Internship</SelectItem>
                 <SelectItem value="Scholarship">Scholarship</SelectItem>
+                <SelectItem value="Education">Education</SelectItem>
               </SelectContent>
             </Select>
           </div>

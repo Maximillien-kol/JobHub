@@ -16,12 +16,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { EditJobDialog } from "@/components/edit-job-dialog"
 import { Pencil, Trash2, BadgeCheck } from "lucide-react"
+import type { Job } from "@/lib/types"
 
 export function JobList() {
   const { jobs, deleteJob } = useJobs()
   const { getCompanyById } = useCompanies()
   const [jobToDelete, setJobToDelete] = useState<string | null>(null)
+  const [jobToEdit, setJobToEdit] = useState<Job | null>(null)
 
   const handleDelete = () => {
     if (jobToDelete) {
@@ -81,7 +84,12 @@ export function JobList() {
                   <TableCell>{job.applicants}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8"
+                        onClick={() => setJobToEdit(job)}
+                      >
                         <Pencil className="h-4 w-4" />
                       </Button>
                       <Button
@@ -100,6 +108,14 @@ export function JobList() {
           </TableBody>
         </Table>
       </div>
+
+      {jobToEdit && (
+        <EditJobDialog
+          job={jobToEdit}
+          open={!!jobToEdit}
+          onOpenChange={(open) => !open && setJobToEdit(null)}
+        />
+      )}
 
       <AlertDialog open={!!jobToDelete} onOpenChange={() => setJobToDelete(null)}>
         <AlertDialogContent>
