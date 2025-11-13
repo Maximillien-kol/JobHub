@@ -15,7 +15,19 @@ interface RichTextEditorProps {
 export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        hardBreak: {
+          keepMarks: false,
+        },
+      }),
       Underline,
     ],
     content: value,
@@ -25,7 +37,14 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl focus:outline-none min-h-[200px] p-4',
+        class: 'prose prose-sm focus:outline-none min-h-[200px] p-4 max-w-none',
+      },
+      handleKeyDown: (view, event) => {
+        // Shift+Enter creates a hard break <br>
+        if (event.key === 'Enter' && event.shiftKey) {
+          return false // Let TipTap handle it (creates <br>)
+        }
+        return false
       },
     },
   })
@@ -88,6 +107,54 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
 
       {/* Editor */}
       <EditorContent editor={editor} />
+      
+      <style jsx global>{`
+        .ProseMirror {
+          min-height: 200px;
+        }
+        
+        .ProseMirror p {
+          margin-bottom: 1rem;
+        }
+        
+        .ProseMirror br {
+          display: block;
+          content: "";
+          margin-top: 0.5em;
+        }
+        
+        .ProseMirror ul {
+          list-style-type: disc;
+          padding-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        
+        .ProseMirror ol {
+          list-style-type: decimal;
+          padding-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        
+        .ProseMirror li {
+          margin-bottom: 0.25rem;
+        }
+        
+        .ProseMirror strong {
+          font-weight: 600;
+        }
+        
+        .ProseMirror em {
+          font-style: italic;
+        }
+        
+        .ProseMirror u {
+          text-decoration: underline;
+        }
+        
+        .ProseMirror:focus {
+          outline: none;
+        }
+      `}</style>
     </div>
   )
 }

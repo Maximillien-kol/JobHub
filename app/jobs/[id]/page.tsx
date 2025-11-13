@@ -243,14 +243,45 @@ export default function JobDetailPage() {
               <div className="bg-card border rounded-lg p-6">
                 <h2 className="text-xl font-semibold mb-4">Job Description</h2>
                 <div 
-                  className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap"
-                  style={{ 
-                    lineHeight: '1.8',
-                    listStyleType: 'disc',
-                    listStylePosition: 'inside'
-                  }}
+                  className="job-description prose prose-sm max-w-none text-muted-foreground"
                   dangerouslySetInnerHTML={{ __html: job.description }}
                 />
+                <style jsx global>{`
+                  .job-description {
+                    line-height: 1.8;
+                  }
+                  .job-description p {
+                    margin-bottom: 1rem;
+                  }
+                  .job-description ul {
+                    list-style-type: disc;
+                    margin-left: 1.5rem;
+                    margin-bottom: 1rem;
+                  }
+                  .job-description ol {
+                    list-style-type: decimal;
+                    margin-left: 1.5rem;
+                    margin-bottom: 1rem;
+                  }
+                  .job-description li {
+                    margin-bottom: 0.5rem;
+                  }
+                  .job-description br {
+                    display: block;
+                    content: "";
+                    margin-bottom: 0.5rem;
+                  }
+                  .job-description strong {
+                    font-weight: 600;
+                    color: inherit;
+                  }
+                  .job-description em {
+                    font-style: italic;
+                  }
+                  .job-description u {
+                    text-decoration: underline;
+                  }
+                `}</style>
               </div>
               
               {/* How to Apply */}
