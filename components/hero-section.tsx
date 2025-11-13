@@ -42,15 +42,12 @@ export function HeroSection() {
   }
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-16">
+    <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-7">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          <h1 className="mb-1 md:mt-0 text-4xl font-bold tracking-tight text-foreground md:text-5xl">
             Rwanda Job Hub
           </h1>
-          <p className="mb-8 text-lg  text-muted-foreground">
-            Looking for a job? browse latest Rwandan job openings to view & apply!
-          </p>
 
           <div className="mx-auto flex max-w-2xl flex-col gap-2 rounded-lg bg-white p-2 shadow-lg md:flex-row">
             <div className="relative flex flex-1 items-center">
@@ -69,24 +66,13 @@ export function HeroSection() {
               )}
             </div>
 
-            <div className="relative flex flex-1 items-center border-t pt-2 md:border-l md:border-t-0 md:pl-2 md:pt-0">
-              <MapPinned className="absolute left-3 h-5 w-5 text-muted-foreground md:left-5" />
-              <Input
-                placeholder="Country or timezone"
-                value={locationValue}
-                onChange={(e) => setLocationValue(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                className="border-0 pl-10 focus-visible:ring-0"
-              />
-            </div>
-
             <Button onClick={handleSearch} className="text-black hover:opacity-90" style={{ backgroundColor: '#76c893' }}>
               Search
             </Button>
           </div>
 
           {/* Opportunity Type Filters */}
-          <div className="mt-6 max-w-md mx-auto grid grid-cols-2 gap-3">
+          <div className="mt-6 mx-auto grid grid-cols-2 md:flex md:flex-wrap md:items-center md:justify-center gap-3 max-w-md md:max-w-none">
             {opportunityTypes.map(({ value, label, icon: Icon }) => {
               const count = getCount(value)
               const isActive = filters.opportunityTypes.includes(value)
