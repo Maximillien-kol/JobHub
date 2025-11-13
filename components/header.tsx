@@ -32,6 +32,7 @@ export function Header() {
   }
 
   const navigationLinks = [
+    { href: "/", label: "Home" },
     { href: "/exams", label: "View job exams" },
     { href: "/edit-cv", label: "Edit CV" },
     { href: "/about", label: "About us" },
@@ -42,8 +43,9 @@ export function Header() {
     <header className="border-b" style={{ backgroundColor: '#003566' }}>
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-semibold text-white">RwandaJobHub</span>
+          <Link href="/" className="flex items-center gap-3">
+            <img src="/rwandajobhub.png" alt="RwandaJobHub" className="h-12 w-auto" />
+            <span className="hidden md:inline text-2xl font-bold text-white">RwandaJobHub</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -52,7 +54,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-white hover:text-gray-300 transition-colors"
+                className="text-base font-medium text-white hover:text-gray-300 transition-colors"
               >
                 {link.label}
               </Link>

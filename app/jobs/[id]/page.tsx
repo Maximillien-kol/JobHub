@@ -32,14 +32,25 @@ export default function JobDetailPage() {
   // Update favicon and meta tags dynamically for WhatsApp sharing
   useEffect(() => {
     if (company && job) {
+      // Make sure company logo is absolute URL
+      const getAbsoluteUrl = (url: string) => {
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+          return url
+        }
+        // Convert relative URL to absolute
+        return `${window.location.origin}${url.startsWith('/') ? '' : '/'}${url}`
+      }
+
+      const companyLogoUrl = company.logo ? getAbsoluteUrl(company.logo) : `${window.location.origin}/rwandajobhub.png`
+
       // Update favicon to company logo
       const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement
       if (favicon) {
-        favicon.href = company.logo || "/favicon.ico"
+        favicon.href = companyLogoUrl
       } else {
         const newFavicon = document.createElement('link')
         newFavicon.rel = 'icon'
-        newFavicon.href = company.logo || "/favicon.ico"
+        newFavicon.href = companyLogoUrl
         document.head.appendChild(newFavicon)
       }
 
@@ -63,9 +74,12 @@ export default function JobDetailPage() {
 
       updateMetaTag('og:title', `${company.name} is hiring ${job.title}!`)
       updateMetaTag('og:description', description)
-      updateMetaTag('og:image', company.logo)
+      updateMetaTag('og:image', companyLogoUrl)
+      updateMetaTag('og:image:secure_url', companyLogoUrl)
+      updateMetaTag('og:image:type', 'image/png')
       updateMetaTag('og:image:width', '1200')
       updateMetaTag('og:image:height', '630')
+      updateMetaTag('og:image:alt', `${company.name} logo`)
       updateMetaTag('og:url', window.location.href)
       updateMetaTag('og:type', 'website')
       updateMetaTag('og:site_name', 'RwandaJobHub')
@@ -86,7 +100,7 @@ export default function JobDetailPage() {
       updateTwitterTag('twitter:card', 'summary_large_image')
       updateTwitterTag('twitter:title', `${company.name} is hiring ${job.title}!`)
       updateTwitterTag('twitter:description', description)
-      updateTwitterTag('twitter:image', company.logo)
+      updateTwitterTag('twitter:image', companyLogoUrl)
     }
   }, [company, job])
 
@@ -161,9 +175,9 @@ export default function JobDetailPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                   <div className="min-w-0">
-                    <h1 className="text-2xl md:text-3xl font-bold mb-2 wrap-break-word">{job.title}</h1>
-                    <div className="flex items-center gap-2 text-base md:text-lg text-muted-foreground">
-                      <span className="font-medium text-foreground">{company.name}</span>
+                    <h1 className="text-2xl md:text-3xl font-bold mb-2 wrap-break-word" style={{ color: '#1E40AF' }}>{job.title}</h1>
+                    <div className="flex items-center gap-2 text-base md:text-lg">
+                      <span className="font-medium" style={{ color: '#16A34A' }}>{company.name}</span>
                     </div>
                   </div>
                   
@@ -229,7 +243,12 @@ export default function JobDetailPage() {
               <div className="bg-card border rounded-lg p-6">
                 <h2 className="text-xl font-semibold mb-4">Job Description</h2>
                 <div 
-                  className="prose prose-sm max-w-none text-muted-foreground"
+                  className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap"
+                  style={{ 
+                    lineHeight: '1.8',
+                    listStyleType: 'disc',
+                    listStylePosition: 'inside'
+                  }}
                   dangerouslySetInnerHTML={{ __html: job.description }}
                 />
               </div>

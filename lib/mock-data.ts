@@ -101,3 +101,5 @@ export const mockJobs: Job[] = [
 export const experienceLevels = ["Entry level", "Intermediate", "Expert"]
 
 export const jobTypes = ["Full-time", "Part-time", "Contract", "Freelance"]
+
+export const opportunityTypes = ["Job", "Internship", "Scholarship", "Education"]

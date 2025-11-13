@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { useJobs } from "@/lib/job-context"
 
 export function HeroSection() {
-  const { filters, setFilters } = useJobs()
+  const { filters, setFilters, jobs } = useJobs()
   const [searchValue, setSearchValue] = useState("")
   const [locationValue, setLocationValue] = useState("")
 
@@ -16,7 +16,12 @@ export function HeroSection() {
     { value: "Job", label: "Jobs", icon: BriefcaseBusiness },
     { value: "Internship", label: "Internships", icon: GraduationCap },
     { value: "Scholarship", label: "Scholarships", icon: Award },
+    { value: "Education", label: "Education", icon: GraduationCap },
   ]
+
+  const getOpportunityTypeCount = (type: string) => {
+    return jobs.filter((job) => job.opportunityType === type).length
+  }
 
   const toggleOpportunityType = (type: string) => {
     const current = filters.opportunityTypes
@@ -84,20 +89,27 @@ export function HeroSection() {
 
           {/* Opportunity Type Filters */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {opportunityTypes.map(({ value, label, icon: Icon }) => (
-              <Badge
-                key={value}
-                variant={filters.opportunityTypes.includes(value) ? "default" : "secondary"}
-                className="cursor-pointer px-4 py-2 text-sm gap-2 transition-colors text-black"
-                style={{ 
-                  backgroundColor: filters.opportunityTypes.includes(value) ? '#76c893' : undefined,
-                }}
-                onClick={() => toggleOpportunityType(value)}
-              >
-                <Icon className="h-4 w-4" />
-                {label}
-              </Badge>
-            ))}
+            {opportunityTypes.map(({ value, label, icon: Icon }) => {
+              const count = getOpportunityTypeCount(value)
+              const isActive = filters.opportunityTypes.includes(value)
+              return (
+                <Button
+                  key={value}
+                  variant={isActive ? "default" : "outline"}
+                  size="lg"
+                  onClick={() => toggleOpportunityType(value)}
+                  className="text-base font-semibold px-6 py-3 gap-2"
+                  style={{
+                    backgroundColor: isActive ? '#16A34A' : 'transparent',
+                    borderColor: '#16A34A',
+                    color: isActive ? 'white' : '#16A34A',
+                  }}
+                >
+                  <Icon className="h-5 w-5" />
+                  {label} ({count})
+                </Button>
+              )
+            })}
           </div>
         </div>
       </div>

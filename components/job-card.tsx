@@ -54,12 +54,12 @@ export function JobCard({ job }: JobCardProps) {
             </div>
 
             <div className="flex-1 min-w-0">
-              <h3 className="mb-2 text-base md:text-lg font-semibold leading-tight text-card-foreground hover:text-primary transition-colors">
+              <h3 className="mb-2 text-base md:text-lg font-semibold leading-tight transition-colors" style={{ color: '#1E40AF' }}>
                 {job.title}
               </h3>
 
               <div className="mb-2 flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">{company.name}</span>
+                <span className="font-medium" style={{ color: '#16A34A' }}>{company.name}</span>
                 
                 <div className="flex items-center gap-1">
                   <MapPin className="h-3 w-3 md:h-4 md:w-4" />

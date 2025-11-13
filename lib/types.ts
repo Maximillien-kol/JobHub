@@ -13,7 +13,7 @@ export interface Job {
   location: string
   locationType: "Remote" | "On-site" | "Hybrid"
   jobType: "Full-time" | "Part-time" | "Contract" | "Freelance"
-  opportunityType: "Job" | "Internship" | "Scholarship"
+  opportunityType: "Job" | "Internship" | "Scholarship" | "Education"
   experienceLevel: "Entry level" | "Intermediate" | "Expert"
   deadline?: string
   applicants: number
