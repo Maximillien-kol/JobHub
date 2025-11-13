@@ -40,15 +40,24 @@ export function Header() {
   ]
 
   return (
-    <header className="border-b" style={{ backgroundColor: '#003566' }}>
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-3">
-            <img src="/rwandajobhub.png" alt="RwandaJobHub" className="h-12 w-auto" />
-            <span className="hidden md:inline text-2xl font-bold text-white">RwandaJobHub</span>
+    <>
+      {/* Logo Header */}
+      <header className="bg-white border-b">
+        <div className="container mx-auto px-4 py-3">
+          <Link href="/" className="flex items-center justify-center">
+            <img 
+              src="/rwandajobhub.png" 
+              alt="RwandaJobHub" 
+              className="h-16 md:h-20 w-auto object-contain" 
+              style={{ maxWidth: '250px' }}
+            />
           </Link>
+        </div>
+      </header>
 
-          {/* Desktop Navigation */}
+      {/* Navigation Header */}
+      <header className="border-b" style={{ backgroundColor: '#003566' }}>
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <nav className="hidden md:flex items-center gap-7">
             {navigationLinks.map((link) => (
               <Link
@@ -60,9 +69,8 @@ export function Header() {
               </Link>
             ))}
           </nav>
-        </div>
 
-        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
           {/* Mobile Menu */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
@@ -140,8 +148,9 @@ export function Header() {
               <Link href="/dashboard">Login</Link>
             </Button>
           )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   )
 }
