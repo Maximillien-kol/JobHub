@@ -10,14 +10,14 @@ export function Footer() {
         d.href = atob('aHR0cHM6Ly9waWxsYXJxLm1lLw==');
         d.target = '_blank';
         d.rel = 'noopener noreferrer';
-        d.className = 'text-gray-300 hover:text-white text-sm transition-colors';
+        d.className = 'text-gray-300 hover:text-white text-xs transition-colors';
         d.style.cssText = 'user-select:none';
         d.textContent = atob('TWFkZSBieSBQaWxsYXJx');
         d.setAttribute('data-c', '1');
-        const container = document.querySelector('footer .flex.flex-wrap');
+        const container = document.querySelector('footer [data-copyright]');
         if (container) {
           const s = document.createElement('span');
-          s.className = 'text-gray-600';
+          s.className = 'text-gray-600 mx-2';
           s.textContent = '|';
           container.appendChild(s);
           container.appendChild(d);
@@ -32,7 +32,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h3 className="text-xl font-semibold mb-6 text-center">Get in Touch</h3>
-          
+
           <div className="grid md:grid-cols-3 gap-6 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-3">
               <MapPinned className="h-5 w-5 text-gray-400" />
@@ -41,7 +41,7 @@ export function Footer() {
                 <p className="text-gray-300 text-sm">Kigali, Rwanda</p>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-center md:justify-start gap-3">
               <Mail className="h-5 w-5 text-gray-400" />
               <div>
@@ -58,7 +58,7 @@ export function Footer() {
               </div>
             </div>
           </div>
-          
+
           <div className="text-center mt-8 pt-6 border-t border-gray-800">
             <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
               <a href="/privacy" className="text-gray-300 hover:text-white text-sm transition-colors">
@@ -73,7 +73,7 @@ export function Footer() {
                 Disclaimer
               </a>
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-2" data-copyright>
               <p className="text-gray-400 text-sm">
                 © 2025 RwandaJobHub. All rights reserved.
               </p>
